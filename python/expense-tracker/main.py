@@ -1,4 +1,6 @@
-expenses = []
+from storage import load_expenses, save_expenses
+
+expenses: list[dict] = load_expenses()
 
 
 def create_expense(
@@ -21,37 +23,60 @@ def get_amount() -> float:
             amount = float(input("Enter the amount: "))
 
             if amount <= 0:
-                print("Amount must be greater than 0")
+                print("Amount must be greater than 0.")
                 continue
 
             return amount
 
         except ValueError:
-            print("Please enter a valid number")
+            print("Please enter a valid number.")
 
 
 def view_expenses() -> None:
     print()
 
     if not expenses:
-        print("------- Nothing to show -------")
+        print("No expenses found.")
         return
 
-    print("Expenses:")
-    print("-" * 50)
+    print("-" * 75)
+    print(f"{'Category':<15}{'Amount':<12}{'Date':<15}Description")
+    print("-" * 75)
 
     for expense in expenses:
         print(
-            f"{expense['category']} | ₹{expense['amount']} | "
-            f"{expense['date']} | {expense['description']}"
+            f"{expense['category']:<15}"
+            f"₹{expense['amount']:<11.2f}"
+            f"{expense['date']:<15}"
+            f"{expense['description']}"
         )
 
-    print()
+    print("-" * 75)
+
+
+def add_expense() -> None:
+    amount = get_amount()
+
+    category = input("Enter category: ").strip()
+    date = input("Enter date (YYYY-MM-DD): ").strip()
+    description = input("Enter description: ").strip()
+
+    expense = create_expense(
+        amount,
+        category,
+        date,
+        description,
+    )
+
+    expenses.append(expense)
+    save_expenses(expenses)
+
+    print("\nExpense added successfully!")
 
 
 def main() -> None:
     while True:
-        print("\nExpense Tracker")
+        print("\n========== Expense Tracker ==========")
         print("1. View Expenses")
         print("2. Add Expense")
         print("3. Exit")
@@ -62,29 +87,15 @@ def main() -> None:
             view_expenses()
 
         elif choice == "2":
-            amount = get_amount()
-
-            category = input("Enter the category: ").strip()
-            date = input("Enter the date (YYYY-MM-DD): ").strip()
-            description = input("Enter the description: ").strip()
-
-            expense = create_expense(
-                amount,
-                category,
-                date,
-                description,
-            )
-
-            expenses.append(expense)
-
-            print("Expense added successfully!")
+            add_expense()
 
         elif choice == "3":
-            print("Exiting...")
+            print("Goodbye!")
             break
 
         else:
             print("Invalid choice. Please try again.")
 
 
-main()
+if __name__ == "__main__":
+    main()
