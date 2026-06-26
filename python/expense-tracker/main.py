@@ -1,3 +1,4 @@
+from analytics import category_summary
 from storage import load_expenses, save_expenses
 
 expenses: list[dict] = load_expenses()
@@ -73,6 +74,8 @@ def add_expense() -> None:
 
     print("\nExpense added successfully!")
 
+def category_expense():
+
 
 def main() -> None:
     while True:
@@ -90,6 +93,21 @@ def main() -> None:
             add_expense()
 
         elif choice == "3":
+            summary = category_summary(expenses)
+
+            if not summary:
+                print("No expenses found.")
+
+            else:
+                print("\nCategory Summary")
+                print("-" * 30)
+
+                for category, total in summary.items():
+                    print(f"{category:<15} ₹{total}")
+
+                print()
+
+        elif choice == "4":
             print("Goodbye!")
             break
 
