@@ -1,4 +1,4 @@
-from analytics import category_summary
+from analytics import category_summary, monthly_summary
 from storage import load_expenses, save_expenses
 
 expenses: list[dict] = load_expenses()
@@ -74,15 +74,15 @@ def add_expense() -> None:
 
     print("\nExpense added successfully!")
 
-def category_expense():
-
 
 def main() -> None:
     while True:
         print("\n========== Expense Tracker ==========")
         print("1. View Expenses")
         print("2. Add Expense")
-        print("3. Exit")
+        print("3. Category Summary")
+        print("4. Monthly Summary")
+        print("5. Exit")
 
         choice = input("Enter your choice: ").strip()
 
@@ -108,6 +108,20 @@ def main() -> None:
                 print()
 
         elif choice == "4":
+            summary = monthly_summary(expenses)
+
+            if not summary:
+                print("No expenses found.")
+            else:
+                print("\nMonthly Summary")
+                print("-" * 30)
+
+                for month, total in summary.items():
+                    print(f"{month:<15} ₹{total}")
+
+                print()
+
+        elif choice == "5":
             print("Goodbye!")
             break
 

@@ -1,0 +1,20 @@
+[
+  {
+    "amount": 200,
+    "category": "Food",
+    "date": "2026-06-25",
+    "description": "Burger"
+  },
+  {
+    "amount": 500,
+    "category": "Travel",
+    "date": "2026-06-28",
+    "description": "Cab"
+  },
+  {
+    "amount": 300,
+    "category": "Food",
+    "date": "2026-07-02",
+    "description": "Pizza"
+  }
+]
