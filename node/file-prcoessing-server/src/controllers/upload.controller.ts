@@ -1,17 +1,17 @@
-import { uploadService } from "../services/upload.service";
 import { Request, Response } from "express";
+import { uploadService } from "../services/upload.service";
 
-export const uploadController = (req: Request, res: Response) => {
+export const uploadController = async (req: Request, res: Response) => {
   if (!req.file) {
     return res.status(400).json({
       message: "No file received",
     });
   }
 
-  const fileData = uploadService(req.file);
+  const data = await uploadService(req.file);
 
   return res.status(201).json({
-    message: "File Uploaded Successfully",
-    data: fileData,
+    message: "File uploaded successfully",
+    data,
   });
 };
