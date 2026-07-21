@@ -1,15 +1,14 @@
-import { Express } from "express";
-import { processTextFile } from "../processors/text.processor";
+import type { Express } from "express";
+import { eventBus } from "../events/eventBus";
+import { jobManager } from "../jobs/job.manager";
 
 export const uploadService = async (file: Express.Multer.File) => {
-  const stats = await processTextFile(file.path);
+  const job = jobManager.create(file.path);
+  eventBus.emit("job.created", job);
 
   return {
-    filename: file.filename,
-    originalName: file.originalname,
-    mimeType: file.mimetype,
-    size: file.size,
-    uploadedAt: new Date(),
-    ...stats,
+    jobId: job.id,
+    status: job.status,
+    message: "Processing started",
   };
 };
