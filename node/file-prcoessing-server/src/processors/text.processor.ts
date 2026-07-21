@@ -17,7 +17,7 @@ export const processTextFile = async (filePath: string): Promise<FileStats> => {
   // create a readline interface
   const rl = readline.createInterface({
     input: fileStream,
-    crlfDelat: Infinity,
+    crlfDelay: Infinity,
   });
 
   let lines = 0;
