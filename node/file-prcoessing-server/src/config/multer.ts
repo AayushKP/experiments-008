@@ -3,7 +3,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: (req, file, cb) => {
     cb(null, path.join(process.cwd(), "uploads"));
   },
   filename: (req, file, cb) => {
@@ -17,16 +17,15 @@ const storage = multer.diskStorage({
 export const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 100 * 1024 * 1024,
+    fileSize: 100 * 1024 * 1024, // 100MB
   },
   fileFilter: (req, file, callback) => {
     const allowedMimeTypes = ["text/plain", "application/json", "text/csv"];
 
-    if (allowedMimeTypes.includes((file.mimetype)){
+    if (allowedMimeTypes.includes(file.mimetype)) {
       callback(null, true);
-    }
-    else {
-      callback(new Error("Unsupported file type"))
+    } else {
+      callback(new Error("Unsupported file type"));
     }
   },
 });
