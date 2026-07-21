@@ -20,7 +20,12 @@ export const upload = multer({
     fileSize: 100 * 1024 * 1024, // 100MB
   },
   fileFilter: (req, file, callback) => {
-    const allowedMimeTypes = ["text/plain", "application/json", "text/csv"];
+    const allowedMimeTypes = [
+      "text/plain",
+      "application/json",
+      "text/csv",
+      "application/pdf",
+    ];
 
     if (allowedMimeTypes.includes(file.mimetype)) {
       callback(null, true);

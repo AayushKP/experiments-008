@@ -1,6 +1,6 @@
 import { eventBus } from "../events/eventBus";
 import { jobManager } from "../jobs/job.manager";
-import { processTextFile } from "../processors/text.processor";
+import { runWorker } from "../jobs/worker.manager";
 import { JobStatus } from "../types/job.types";
 
 eventBus.on("job.created", async (job) => {
@@ -9,11 +9,11 @@ eventBus.on("job.created", async (job) => {
       status: JobStatus.PROCESSING,
       progress: 25,
     });
-    const result = await processTextFile(job.filePath);
+    const result = await runWorker(job.filePath);
 
     jobManager.update(job.id, {
       status: JobStatus.COMPLETED,
-      progress: 300,
+      progress: 100,
       result,
     });
   } catch (error) {
