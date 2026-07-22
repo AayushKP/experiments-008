@@ -1,22 +1,14 @@
 import fs from "node:fs";
 import readline from "node:readline";
 
-export interface FileStats {
-  lines: number;
-  words: number;
-  characters: number;
-}
+export async function processTextFile(
+  filePath: string,
+  onProgress?: (progress: number) => void,
+) {
+  const stream = fs.createReadStream(filePath);
 
-export const processTextFile = async (filePath: string): Promise<FileStats> => {
-  // TODO:
-  // create a readable stream
-  const fileStream = fs.createReadStream(filePath, {
-    encoding: "utf8",
-  });
-  // TODO:
-  // create a readline interface
   const rl = readline.createInterface({
-    input: fileStream,
+    input: stream,
     crlfDelay: Infinity,
   });
 
@@ -26,12 +18,12 @@ export const processTextFile = async (filePath: string): Promise<FileStats> => {
 
   for await (const line of rl) {
     lines++;
-
-    const trimmed = line.trim();
-    if (trimmed.length > 0) {
-      words += trimmed.split(/\s+/).length;
-    }
+    words += line.split(/\s+/).filter(Boolean).length;
     characters += line.length;
+
+    if (lines % 100 === 0) {
+      onProgress?.(lines);
+    }
   }
 
   return {
@@ -39,4 +31,4 @@ export const processTextFile = async (filePath: string): Promise<FileStats> => {
     words,
     characters,
   };
-};
+}

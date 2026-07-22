@@ -1,7 +1,7 @@
 import { eventBus } from "../events/eventBus";
 import { jobManager } from "../jobs/job.manager";
-import { runWorker } from "../jobs/worker.manager";
 import { JobStatus } from "../types/job.types";
+import { workerPool } from "../workers/worker.pool";
 
 eventBus.on("job.created", async (job) => {
   try {
@@ -9,7 +9,7 @@ eventBus.on("job.created", async (job) => {
       status: JobStatus.PROCESSING,
       progress: 25,
     });
-    const result = await runWorker(job.filePath);
+    const result = workerPool.addJob(job);
 
     jobManager.update(job.id, {
       status: JobStatus.COMPLETED,
