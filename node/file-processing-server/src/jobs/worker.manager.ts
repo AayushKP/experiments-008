@@ -3,9 +3,9 @@ import { Worker } from "worker_threads";
 
 export const runWorker = (filePath: string) => {
   return new Promise((resolve, reject) => {
-    //starts another thread
+    //starts a new thread for a new upload
     const worker = new Worker(
-      path.join(__dirname, "../workers/text.worker.ts"),
+      path.join(__dirname, "../workers/text.worker.js"),
       {
         workerData: {
           filePath,
