@@ -1,10 +1,10 @@
-import type { Job } from "../types/job.types";
-import { jobManager } from "../jobs/job.manager";
-import { JobStatus } from "../types/job.types";
-import { jobQueue } from "../queue/job.queue";
-import { Worker } from "node:worker_threads";
-import path from "node:path";
 import os from "node:os";
+import path from "node:path";
+import { Worker } from "node:worker_threads";
+import { jobManager } from "../jobs/job.manager";
+import { jobQueue } from "../queue/job.queue";
+import type { Job } from "../types/job.types";
+import { JobStatus } from "../types/job.types";
 
 interface WorkerInstance {
   worker: Worker;
